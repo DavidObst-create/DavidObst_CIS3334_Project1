@@ -1,6 +1,7 @@
 package com.example.davidobst_cis3334_project1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     EditText eventEnd;
     Button buttonAdd;
     Button buttonEdit;
+    MainViewModel mainViewModel;
     RecyclerView recyclerView;
 
     ArrayList<Event> eventList = new ArrayList<>();
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Get the references to the widgets
         eventDescription = (EditText) findViewById(R.id.editTextDescription);

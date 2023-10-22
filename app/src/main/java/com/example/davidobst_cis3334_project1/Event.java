@@ -1,10 +1,17 @@
 package com.example.davidobst_cis3334_project1;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Event {
     private String eventDescription;
     private String eventDate;
     private String eventStart;
     private String eventEnd;
+
+    @PrimaryKey(autoGenerate = true)
+    public Integer id; // primary key
 
     public Event(String eventDescription, String eventDate, String eventStart, String eventEnd) {
         this.eventDescription = eventDescription;
