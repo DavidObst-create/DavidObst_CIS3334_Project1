@@ -9,7 +9,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface eventDao {
+public interface EventDao {
     @Insert
     void insert(Event event);
 

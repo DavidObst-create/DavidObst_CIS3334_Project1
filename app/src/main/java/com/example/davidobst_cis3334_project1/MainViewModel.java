@@ -9,13 +9,13 @@ import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private eventRepository eventRepository;
+    private EventRepository eventRepository;
 
     private LiveData<List<Event>> eventList;
 
     public MainViewModel(Application application) {
         super(application);
-        eventRepository = new eventRepository(application);
+        eventRepository = new EventRepository(application);
         eventList = eventRepository.getAllEvents();
     }
 
@@ -28,5 +28,20 @@ public class MainViewModel extends AndroidViewModel {
         eventList = eventRepository.getAllEvents();
         return eventList;
     }
+
+    public boolean equals(Event event) {
+        if (event.getEventDescription().equals(this)
+                && event.getEventStart().equals(this)
+                && event.getEventEnd().equals(this)
+                && event.getEventDate().equals(this)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
 
 }

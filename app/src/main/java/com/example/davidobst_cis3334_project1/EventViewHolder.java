@@ -5,9 +5,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class eventViewHolder extends RecyclerView.ViewHolder {
+public class EventViewHolder extends RecyclerView.ViewHolder {
 
-        public eventViewHolder(View itemView) {
+        public EventViewHolder(View itemView) {
             super(itemView);
             textViewEventDescription = itemView.findViewById(R.id.textViewEventDescription);
             textViewEventDate = itemView.findViewById(R.id.textViewEventDate);

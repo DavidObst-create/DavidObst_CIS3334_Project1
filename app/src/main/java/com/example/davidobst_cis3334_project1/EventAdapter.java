@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class eventAdapter extends RecyclerView.Adapter<eventViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
-    private List<Event> eventList = new ArrayList<>();
-
+    private List<Event> eventList;
     private Context context;
 
-    public eventAdapter(Application application) {
+    public EventAdapter(Application application, MainViewModel mainViewModel) {
         this.context = application;
+
+        eventList = new ArrayList<>();
 
         eventList.add(new Event("Class", "10/20/2020", "12:00", "13:00"));
         eventList.add(new Event("Work", "10/21/2020", "14:00", "15:00"));
@@ -29,15 +30,15 @@ public class eventAdapter extends RecyclerView.Adapter<eventViewHolder> {
 
     @NonNull
     @Override
-    public eventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.event_row, parent, false);
-        eventViewHolder holder = new eventViewHolder(view);
-        return new eventViewHolder(view);
+        EventViewHolder eventViewHolder = new EventViewHolder(view);
+        return new EventViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull eventViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
         holder.textViewEventDescription.setText(event.getEventDescription());
         holder.textViewEventDate.setText(event.getEventDate());
@@ -46,5 +47,13 @@ public class eventAdapter extends RecyclerView.Adapter<eventViewHolder> {
     }
 
     @Override
-    public int getItemCount() {return eventList.size(); }
+    public int getItemCount() {
+        return eventList.size();
+    }
+
+    public void addEvent(String description, String date, String start, String end) {
+        Event event = new Event(description, date, start, end);
+        eventList.add(event);
+        notifyDataSetChanged();
+    }
 }
