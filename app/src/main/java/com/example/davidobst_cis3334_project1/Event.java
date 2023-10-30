@@ -1,13 +1,25 @@
 package com.example.davidobst_cis3334_project1;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Event {
+    //@NonNull
+    //@ColumnInfo(name = "eventDescription")
     private String eventDescription;
+    //@NonNull
+    //@ColumnInfo(name = "eventDate")
     private String eventDate;
+    //@NonNull
+    //@ColumnInfo(name = "eventStart")
     private String eventStart;
+    //@NonNull
+    //@ColumnInfo(name = "eventEnd")
     private String eventEnd;
 
     @PrimaryKey(autoGenerate = true)
@@ -18,6 +30,7 @@ public class Event {
         this.eventDate = eventDate;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
+        Log.d("CIS 3334","Event constructor has been called");
     }
 
     public String getEventDescription() {

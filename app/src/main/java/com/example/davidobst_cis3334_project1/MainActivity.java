@@ -2,6 +2,8 @@ package com.example.davidobst_cis3334_project1;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,12 +28,15 @@ public class MainActivity extends AppCompatActivity {
     EditText eventStart;
     EditText eventEnd;
     Button buttonAdd;
-    Button buttonEdit;
+    Button buttonRemove;
     ImageButton buttonSettings;
     MainViewModel mainViewModel;
     RecyclerView recyclerView;
+    EventAdapter adapter = new EventAdapter(getApplication(), mainViewModel);
 
-    ArrayList<Event> eventList = new ArrayList<>();
+    List<Event> eventList = new ArrayList<>();
+    //LiveData<List<Event>> eventListLiveData;
+
 
 
 
@@ -48,36 +53,38 @@ public class MainActivity extends AppCompatActivity {
         eventStart = (EditText) findViewById(R.id.editTimeStart);
         eventEnd = (EditText) findViewById(R.id.editTimeEnd);
         buttonAdd = (Button) findViewById(R.id.buttonAdd);
-        buttonEdit = (Button) findViewById(R.id.buttonEdit);
+        buttonRemove = (Button) findViewById(R.id.buttonRemove);
         buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        EventAdapter adapter = new EventAdapter(getApplication(), mainViewModel);
+        //eventListLiveData = mainViewModel.getAllEvents();
+
+
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupAddEventButton();
-
+        setupRemoveEventButton();
         setupEditTextDate();
         setupEditTextDescription();
         setupEditStartTime();
         setupEditEndTime();
-
+        setupLiveDataObserver();
 
         /*
-        //Check if editTextViews are empty
-        if (eventDescription.getText().toString().isEmpty()
-                && eventDate.getText().toString().isEmpty()
-                && eventStart.getText().toString().isEmpty()
-                && eventEnd.getText().toString().isEmpty()) {
-            buttonAdd.setEnabled(false);
-            buttonEdit.setEnabled(false);
-        } else {
-            buttonAdd.setEnabled(true);
-            buttonEdit.setEnabled(true);
-        }
-        */
+        eventListLiveData.observe(this, new Observer<List<Event>>() {
+            @Override
+            public void onChanged(List<Event> myItens) {
+                adapter.setEventList(myItens);
+            }
+        });
+
+         */
     }
+
+
 
     private void setupAddEventButton() {
         buttonAdd = (Button) findViewById(R.id.buttonAdd);
@@ -86,28 +93,57 @@ public class MainActivity extends AppCompatActivity {
            public void onClick(View v) {
                Log.d("CIS 3334", "Add Event Button Clicked");
 
-               //make sure the editTextViews are not empty
-               if (eventDescription.getText() != null &&
-                       eventDate.getText() != null &&
-                       eventStart.getText() != null &&
-                       eventEnd.getText() != null) {
+               try {
+                   String description = eventDescription.getText().toString();
+                   String date = eventDate.getText().toString();
+                   String start = eventStart.getText().toString();
+                   String end = eventEnd.getText().toString();
 
+                   //add event to database
+                   mainViewModel.insert(description, date, start, end);
 
-                   //add the event to the database
-                   mainViewModel.insert(
-                           eventDescription.getText().toString(),
-                           eventDate.getText().toString(),
-                           eventStart.getText().toString(),
-                           eventEnd.getText().toString()
-                   );
                    //empty the editTextViews and set add button to false
                    eventDescription.setText("");
                    eventDate.setText("");
                    eventStart.setText("");
                    eventEnd.setText("");
-                   buttonAdd.setEnabled(false);
+                   //buttonAdd.setEnabled(false);
+               } catch (Exception e) {
+                     Log.d("CIS 3334", "Error: " + e.getMessage());
                }
+
+
+
+
            }
+        });
+    }
+
+    private void setupRemoveEventButton() {
+        buttonRemove = (Button) findViewById(R.id.buttonRemove);
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CIS 3334", "Remove Event Button Clicked");
+                //eventList to the value of live data
+                //eventList = eventListLiveData.getValue();
+                Log.d("CIS 3334", "Event List Size: " + eventList.size());
+                Log.d("CIS 3334", "Event List: " + eventList.get(0).getEventDescription());
+
+                //find and store index of event from eventList where the date, start, and end match
+                for (Event event: eventList) {
+                    if (event.getEventDate().equals(eventDate.getText().toString())
+                            && event.getEventStart().equals(eventStart.getText().toString())
+                            && event.getEventEnd().equals(eventEnd.getText().toString())) {
+                        //remove event from eventList
+                        mainViewModel.delete(event);
+                    }
+                }
+                //notify the adapter that the data has changed
+                recyclerView.getAdapter().notifyDataSetChanged();
+
+            }
         });
     }
 
@@ -193,8 +229,10 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getAllEvents().observe(this, new Observer<List<Event>>() {
             @Override
             public void onChanged(@Nullable List<Event> events) {
-                eventList.clear();
-                eventList.addAll(events);
+                Log.d("CIS 3334", "On Change Called");
+                eventList = events;
+                adapter.setEventList(eventList);
+                Log.d("CIS 3334", "Event List Size: " + eventList.size());
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });

@@ -29,6 +29,10 @@ public class MainViewModel extends AndroidViewModel {
         return eventList;
     }
 
+    public void delete(Event event) {
+        eventRepository.delete(event);
+    }
+
     public boolean equals(Event event) {
         if (event.getEventDescription().equals(this)
                 && event.getEventStart().equals(this)

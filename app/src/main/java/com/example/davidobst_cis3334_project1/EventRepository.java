@@ -30,4 +30,10 @@ public class EventRepository {
             eventDao.insert(event);
         });
     }
+
+    void delete(Event event) {
+        EventDatabase.databaseWriteExecutor.execute(() -> {
+            eventDao.delete(event);
+        });
+    }
 }

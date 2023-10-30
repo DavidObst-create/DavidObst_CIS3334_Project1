@@ -22,10 +22,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
         eventList = new ArrayList<>();
 
-        eventList.add(new Event("Class", "10/20/2020", "12:00", "13:00"));
-        eventList.add(new Event("Work", "10/21/2020", "14:00", "15:00"));
-        eventList.add(new Event("Sleep", "10/22/2020", "16:00", "17:00"));
-        eventList.add(new Event("Eat", "10/23/2020", "18:00", "19:00"));
+        //test data
+        //eventList.add(new Event("Class", "10/20/2020", "12:00", "13:00"));
+        //eventList.add(new Event("Work", "10/21/2020", "14:00", "15:00"));
+        //eventList.add(new Event("Sleep", "10/22/2020", "16:00", "17:00"));
+        //eventList.add(new Event("Eat", "10/23/2020", "18:00", "19:00"));
     }
 
     @NonNull
@@ -54,6 +55,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventViewHolder> {
     public void addEvent(String description, String date, String start, String end) {
         Event event = new Event(description, date, start, end);
         eventList.add(event);
+        notifyDataSetChanged();
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+        notifyDataSetChanged();
+    }
+
+    public void addAllEvents(List<Event> events) {
+        eventList.addAll(events);
         notifyDataSetChanged();
     }
 }
