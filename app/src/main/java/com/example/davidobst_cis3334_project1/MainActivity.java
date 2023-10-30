@@ -35,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
     EventAdapter adapter = new EventAdapter(getApplication(), mainViewModel);
 
     List<Event> eventList = new ArrayList<>();
-    //LiveData<List<Event>> eventListLiveData;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
         buttonRemove = (Button) findViewById(R.id.buttonRemove);
         buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
 
-        //eventListLiveData = mainViewModel.getAllEvents();
-
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,16 +62,6 @@ public class MainActivity extends AppCompatActivity {
         setupEditStartTime();
         setupEditEndTime();
         setupLiveDataObserver();
-
-        /*
-        eventListLiveData.observe(this, new Observer<List<Event>>() {
-            @Override
-            public void onChanged(List<Event> myItens) {
-                adapter.setEventList(myItens);
-            }
-        });
-
-         */
     }
 
 
@@ -126,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("CIS 3334", "Remove Event Button Clicked");
-                //eventList to the value of live data
-                //eventList = eventListLiveData.getValue();
                 Log.d("CIS 3334", "Event List Size: " + eventList.size());
                 Log.d("CIS 3334", "Event List: " + eventList.get(0).getEventDescription());
 
@@ -153,14 +131,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 Log.d("CIS 3334", "Description Entered: " + eventDescription.getText().toString());
-                for (Event event : eventList) {
-                    if (event.getEventDescription().equals(eventDescription.getText().toString())) {
-                        eventDate.setText(event.getEventDescription());
-                        eventStart.setText(event.getEventStart());
-                        eventEnd.setText(event.getEventEnd());
-                    }
-
-                }
+                //TODO have the program check the newly entered data against the eventList to determine if the event already exists
+                //TODO if the event already exists, enable the Remove event button, otherwise, enable the add new event button
                 return false;
             }
         });
@@ -172,14 +144,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 Log.d("CIS 3334", "Date Entered: " + eventDate.getText().toString());
-                for (Event event : eventList) {
-                    if (event.getEventDate().equals(eventDate.getText().toString())) {
-                        eventDescription.setText(event.getEventDescription());
-                        eventStart.setText(event.getEventStart());
-                        eventEnd.setText(event.getEventEnd());
-                    }
-
-                }
+                //TODO have the program check the newly entered data against the eventList to determine if the event already exists
+                //TODO if the event already exists, enable the Remove event button, otherwise, enable the add new event button
                 return false;
             }
         });
@@ -191,14 +157,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 Log.d("CIS 3334", "Start Time Entered: " + eventStart.getText().toString());
-                for (Event event : eventList) {
-                    if (event.getEventDate().equals(eventStart.getText().toString())) {
-                        eventDate.setText(event.getEventDate());
-                        eventDescription.setText(event.getEventDescription());
-                        eventEnd.setText(event.getEventEnd());
-                    }
-
-                }
+                //TODO have the program check the newly entered data against the eventList to determine if the event already exists
+                //TODO if the event already exists, enable the Remove event button, otherwise, enable the add new event button
                 return false;
             }
         });
@@ -210,14 +170,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 Log.d("CIS 3334", "End Time Entered: " + eventEnd.getText().toString());
-                for (Event event : eventList) {
-                    if (event.getEventDate().equals(eventEnd.getText().toString())) {
-                        eventDate.setText(event.getEventDate());
-                        eventDescription.setText(event.getEventDescription());
-                        eventStart.setText(event.getEventEnd());
-                    }
-
-                }
+                //TODO have the program check the newly entered data against the eventList to determine if the event already exists
+                //TODO if the event already exists, enable the Remove event button, otherwise, enable the add new event button
                 return false;
             }
         });
@@ -237,4 +191,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //TODO Add in the settings button functionality to allow the user to create reminder notifications through their chosen calendar app
+    //TODO Add in the functionality to allow the user to edit the event information via a listener on the recycler view
 }

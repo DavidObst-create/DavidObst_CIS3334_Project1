@@ -9,17 +9,9 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Event {
-    //@NonNull
-    //@ColumnInfo(name = "eventDescription")
     private String eventDescription;
-    //@NonNull
-    //@ColumnInfo(name = "eventDate")
     private String eventDate;
-    //@NonNull
-    //@ColumnInfo(name = "eventStart")
     private String eventStart;
-    //@NonNull
-    //@ColumnInfo(name = "eventEnd")
     private String eventEnd;
 
     @PrimaryKey(autoGenerate = true)

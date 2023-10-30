@@ -19,7 +19,4 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView textViewEventDate;
         TextView textViewEventStart;
         TextView textViewEventEnd;
-
-
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 public class EventRepository {
 
     private EventDao eventDao;
-
     private LiveData<List<Event>> eventList;
 
     EventRepository(Application applicaiton) {
